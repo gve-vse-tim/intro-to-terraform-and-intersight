@@ -7,8 +7,8 @@ variable "apikey" {
     default = ""
 }
 
-variable "secretkeyfile" {
-    description = "Filename (PEM) that provides secret key for Terraform Demo Account"
+variable "secretkey" {
+    description = "Filename (PEM) or string contents thereof that provides secret key for Terraform Demo Account"
     type = string
     default = ""
 }
