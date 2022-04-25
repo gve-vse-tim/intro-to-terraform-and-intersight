@@ -126,7 +126,6 @@ resource "intersight_vnic_eth_adapter_policy" "Default-Ethernet" {
 
     completion_queue_settings {
         nr_count = 5
-        ring_size = 1
     }
 
     interrupt_settings {
