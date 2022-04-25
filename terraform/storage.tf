@@ -5,7 +5,7 @@ resource "intersight_storage_storage_policy" "standalone_storage" {
     }
 
     description = "Terraform deployed"
-    name = "Standalone Server Storage Policy"
+    name = "Standalone_Storage_Policy"
     use_jbod_for_vd_creation = true
 
     unused_disks_state = "UnconfiguredGood"
@@ -23,7 +23,7 @@ output "storage_policy_moid" {
 
 # Define the Storage Drive Group
 resource "intersight_storage_drive_group" "single_raid6_volume" {
-    name = "Single Volume, 12-slot RAID6 "
+    name = "1vol_12slot_raid6"
     raid_level = "Raid6"
 
     manual_drive_group {
