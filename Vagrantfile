@@ -3,7 +3,7 @@
 
 Vagrant.configure("2") do |config|
   # Which base image
-  config.vm.box = "fedora/33-cloud-base"
+  config.vm.box = "fedora/35-cloud-base"
 
   # Open ports to view web pages built within this box
   # config.vm.network "forwarded_port", guest: 4000, host: 4000, host_ip: "127.0.0.1"
@@ -42,5 +42,3 @@ Vagrant.configure("2") do |config|
     echo "export MYHOST=\$(ip address show dev eth0 | awk '/global/ { print \$2; }' | cut -d/ -f1)\" >> /home/vagrant/.bashrc
   SHELL
 end
-
-### Links to related docs on building this Vagrantfile
