@@ -13,7 +13,7 @@ resource "intersight_storage_storage_policy" "standalone_storage" {
 
     profiles {
         object_type = "server.Profile"
-        moid = intersight_server_profile.server1.moid
+        moid = intersight_server_profile.standalone.moid
     }
 }
 

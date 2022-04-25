@@ -13,7 +13,7 @@ resource "intersight_ssh_policy" "EnableSSH" {
 
     profiles {
         object_type = "server.Profile"
-        moid = intersight_server_profile.server1.moid
+        moid = intersight_server_profile.standalone.moid
     }
 }
 
@@ -55,7 +55,7 @@ resource "intersight_kvm_policy" "EnableIPKVM" {
 
     profiles {
         object_type = "server.Profile"
-        moid = intersight_server_profile.server1.moid
+        moid = intersight_server_profile.standalone.moid
     }
 }
 
@@ -77,7 +77,7 @@ resource "intersight_ntp_policy" "local_ntp" {
 
     profiles {
         object_type = "server.Profile"
-        moid = intersight_server_profile.server1.moid
+        moid = intersight_server_profile.standalone.moid
     }
 }
 
@@ -109,7 +109,7 @@ resource "intersight_networkconfig_policy" "local_dns_server" {
 
     profiles {
         object_type = "server.Profile"
-        moid = intersight_server_profile.server1.moid
+        moid = intersight_server_profile.standalone.moid
     }
 }
 

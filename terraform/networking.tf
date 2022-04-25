@@ -1,11 +1,11 @@
-# Define Adapter Configuration policy for server1
-resource "intersight_adapter_config_policy" "server1-Networking" {
+# Define Adapter Configuration policy for standalone
+resource "intersight_adapter_config_policy" "standalone-Networking" {
     organization {
         moid = intersight_organization_organization.target.moid
     }
 
     description = "Terraform deployed"
-    name = "server1-Networking"
+    name = "standalone-Networking"
 
     # First Adapter
     settings {
@@ -85,12 +85,12 @@ resource "intersight_adapter_config_policy" "server1-Networking" {
 
     profiles {
         object_type = "server.Profile"
-        moid = intersight_server_profile.server1.moid
+        moid = intersight_server_profile.standalone.moid
     }
 }
 
 output "adapter_config_moid" {
-    value = intersight_adapter_config_policy.server1-Networking.moid
+    value = intersight_adapter_config_policy.standalone-Networking.moid
 }
 
 # Configure Default Ethernet adapter settings
@@ -209,7 +209,7 @@ output "eth_ntwk_policy_moid" {
     value = intersight_vnic_eth_network_policy.Trunk-Native0.moid
 }
 
-# Define the LAN vNICs for server1 - MLOM eth0
+# Define the LAN vNICs for standalone - MLOM eth0
 resource "intersight_vnic_eth_if" "MLOM_eth0" {
     name = "eth0"
     order = 0
@@ -226,7 +226,7 @@ resource "intersight_vnic_eth_if" "MLOM_eth0" {
     }
 
     lan_connectivity_policy {
-        moid = intersight_vnic_lan_connectivity_policy.server1-DirectPorts.moid
+        moid = intersight_vnic_lan_connectivity_policy.standalone-DirectPorts.moid
     }
 
     eth_adapter_policy {
@@ -271,7 +271,7 @@ resource "intersight_vnic_eth_if" "MLOM_eth1" {
     }
 
     lan_connectivity_policy {
-        moid = intersight_vnic_lan_connectivity_policy.server1-DirectPorts.moid
+        moid = intersight_vnic_lan_connectivity_policy.standalone-DirectPorts.moid
     }
 
     eth_adapter_policy {
@@ -316,7 +316,7 @@ resource "intersight_vnic_eth_if" "PCI_slot2_eth0" {
     }
 
     lan_connectivity_policy {
-        moid = intersight_vnic_lan_connectivity_policy.server1-DirectPorts.moid
+        moid = intersight_vnic_lan_connectivity_policy.standalone-DirectPorts.moid
     }
 
     eth_adapter_policy {
@@ -361,7 +361,7 @@ resource "intersight_vnic_eth_if" "PCI_slot2_eth1" {
     }
 
     lan_connectivity_policy {
-        moid = intersight_vnic_lan_connectivity_policy.server1-DirectPorts.moid
+        moid = intersight_vnic_lan_connectivity_policy.standalone-DirectPorts.moid
     }
 
     eth_adapter_policy {
@@ -391,22 +391,22 @@ resource "intersight_vnic_eth_if" "PCI_slot2_eth1" {
 }
 
 # Define the LAN Connectivity policy
-resource "intersight_vnic_lan_connectivity_policy" "server1-DirectPorts" {
+resource "intersight_vnic_lan_connectivity_policy" "standalone-DirectPorts" {
     organization {
         moid = intersight_organization_organization.target.moid
     }
 
     description = "1:1 mapping of vNIC to external port for MLOM and PCIe Slot 2 - Terraform deployed"
-    name = "server1-DirectPorts"
+    name = "standalone-DirectPorts"
     target_platform = "Standalone"
     placement_mode = "custom"
 
     profiles {
         object_type = "server.Profile"
-        moid = intersight_server_profile.server1.moid
+        moid = intersight_server_profile.standalone.moid
     }
 }
 
 output "lcp_moid" {
-    value = intersight_vnic_lan_connectivity_policy.server1-DirectPorts.moid
+    value = intersight_vnic_lan_connectivity_policy.standalone-DirectPorts.moid
 }

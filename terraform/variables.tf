@@ -31,3 +31,9 @@ variable "target_organization" {
     type = string
     default = "Demo-Deployment"
 }
+
+variable "standalone_sernum" {
+    description = "Standalone Server Serial Number"
+    type = string
+    default = "SERVER_SERIAL"
+}

@@ -35,21 +35,21 @@ output "org_target_moid" {
 }
 
 # Create the Server Profile
-resource "intersight_server_profile" "server1" {
+resource "intersight_server_profile" "standalone" {
     organization {
         object_type = "organization.Organization"
         moid = intersight_organization_organization.target.moid
     }
 
     description = "Terraform deployed"
-    name = "SrvProf-Server1"
+    name = "SrvProf-standalone"
 
     # After configuring serial number in devices.tf, uncomment this
     # assigned_server block accordingly.
 
     # assigned_server {
     #     object_type = "compute.RackUnit"
-    #     moid = data.intersight_compute_rack_unit.server1.moid
+    #     moid = data.intersight_compute_rack_unit.standalone.moid
     # }
 
     # GitHub Issue #16: https://github.com/CiscoDevNet/terraform-provider-intersight/issues/16
@@ -63,8 +63,8 @@ resource "intersight_server_profile" "server1" {
     # action = "Deploy"
 }
 
-output "server1_sp_moid" {
-    value = intersight_server_profile.server1.moid
+output "standalone_sp_moid" {
+    value = intersight_server_profile.standalone.moid
 }
 
 # Configure Boot Order ("boot precision") policy
@@ -104,7 +104,7 @@ resource "intersight_boot_precision_policy" "Local-Boot-Order" {
 
     profiles {
         object_type = "server.Profile"
-        moid = intersight_server_profile.server1.moid
+        moid = intersight_server_profile.standalone.moid
     }
 }
 
@@ -174,6 +174,6 @@ resource "intersight_bios_policy" "ESX-67U3-BIOS" {
 
     profiles {
         object_type = "server.Profile"
-        moid = intersight_server_profile.server1.moid
+        moid = intersight_server_profile.standalone.moid
     }
 }
