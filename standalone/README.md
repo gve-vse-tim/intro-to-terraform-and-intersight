@@ -1,4 +1,4 @@
-# Server Profile Example for Terrafor Intersight Provider
+# UCS C-series Standalone Server Profile Example
 
 This example is take directly from a valid, server deployment to an
 internal Cisco lab C240 M4L server.  That being said, it is derived heavily
@@ -29,3 +29,28 @@ repo differing from documented.
 Since the provider essentially maps directly to the exact model representation present
 in the REST API, it's essential to understand the model at least with respect to the
 server profile.
+
+## Authentication setup
+
+You'll need to create an API key and secret key file within Intersight for the
+account into which you will be deploying these Terraform defined resources. You
+can [generate those credentials here.](https://intersight.com/an/settings/api-keys/)
+
+For production scenarios, I recommend setting environment variables with the specific
+credential information or leverage Terraform Cloud for the best credential security.
+
+For basic local laptop demos, use the following instructions:
+
+Save the secret key file in this directory as **Intersight-API-Secret.pem**. Edit the
+[credentials.tf](./credentials.tf) file and make the following two changes:
+
+- Change the **default** argument in the *apikey* variable to the value of the Intersight account's API key
+- Change the **default** argument in the *secretkefile* variable to the filename which contains the secret key
+
+## Creating the Server Profile
+
+Standard Terraform operations apply at this point:
+
+- terraform init
+- terraform plan
+- terraform apply
