@@ -63,3 +63,9 @@ as instructed above.
 If you require proxy settings to connect to the Internet, you'll have to run **vagrant up** with
 the **--no-provision** argument, log into the VM, and manually set the proxy values in order to
 the manually run the provisioning steps in the Vagrantfile.
+
+## Reference Materials
+
+[Intersight Managed Mode Config Guide](https://intersight.com/help/saas/resources/cisco_intersight_managed_mode_configuration)
+[Server Profile Templates](https://intersight.com/help/saas/features/servers/operate#server_profile_templates)
+[Intersight Managed Mode Video Series](https://intersight.com/help/saas/video#cisco_intersight_managed_mode_series)
