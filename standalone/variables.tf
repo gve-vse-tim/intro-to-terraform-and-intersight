@@ -43,3 +43,8 @@ variable "standalone_sernum" {
   type        = string
   default     = "SERVER_SERIAL"
 }
+
+variable "dcnm_password" {
+  description = "Password for the local DCNM user"
+  type        = string
+}
