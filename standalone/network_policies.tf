@@ -84,107 +84,107 @@ resource "intersight_vnic_eth_qos_policy" "best_effort_1500" {
 
 # Standalone Specific Policies - Uplink trunk definition
 resource "intersight_vnic_eth_network_policy" "switchport_trunk_all_native_0" {
-    organization {
-        moid = intersight_organization_organization.target.moid
-    }
+  organization {
+    moid = intersight_organization_organization.target.moid
+  }
 
-    description = "Terraform deployed"
-    name = "Trunk-Native0"
-    target_platform = "Standalone"
+  description     = "Terraform deployed"
+  name            = "Trunk-Native0"
+  target_platform = "Standalone"
 
-    vlan_settings {
-        default_vlan = 0
-        mode = "TRUNK"
-    }
+  vlan_settings {
+    default_vlan = 0
+    mode         = "TRUNK"
+  }
 }
 
 # Define Adapter Configuration policy for standalone
 resource "intersight_adapter_config_policy" "standalone_installed_adapters" {
-    organization {
-        moid = intersight_organization_organization.target.moid
+  organization {
+    moid = intersight_organization_organization.target.moid
+  }
+
+  description = "Terraform deployed"
+  name        = "Standalone-Installed-Adapters"
+
+  # First Adapter
+  settings {
+    slot_id = "MLOM"
+
+    # Ethernet Settings
+    eth_settings {
+      lldp_enabled = true
     }
 
-    description = "Terraform deployed"
-    name = "Standalone-Installed-Adapters"
-
-    # First Adapter
-    settings {
-        slot_id = "MLOM"
-
-        # Ethernet Settings
-        eth_settings {
-            lldp_enabled = true
-        }
-
-        # FC Settings
-        fc_settings {
-            fip_enabled = false
-        }
-
-        # PC Settings
-        port_channel_settings {
-            enabled = false
-        }
-
-        # Default DCE settings
-        dce_interface_settings {
-            fec_mode = "Off"
-            interface_id = 0
-        }
-        dce_interface_settings {
-            fec_mode = "Off"
-            interface_id = 1
-        }
-        dce_interface_settings {
-            fec_mode = "Off"
-            interface_id = 2
-        }
-        dce_interface_settings {
-            fec_mode = "Off"
-            interface_id = 3
-        }
+    # FC Settings
+    fc_settings {
+      fip_enabled = false
     }
 
-    # Second Adapter
-    settings {
-        slot_id = "2"
-
-        # Ethernet Settings
-        eth_settings {
-            lldp_enabled = true
-        }
-
-        # FC Settings
-        fc_settings {
-            fip_enabled = false
-        }
-
-        # PC Settings
-        port_channel_settings {
-            enabled = false
-        }
-
-        # Default DCE settings
-        dce_interface_settings {
-            fec_mode = "Off"
-            interface_id = 0
-        }
-        dce_interface_settings {
-            fec_mode = "Off"
-            interface_id = 1
-        }
-        dce_interface_settings {
-            fec_mode = "Off"
-            interface_id = 2
-        }
-        dce_interface_settings {
-            fec_mode = "Off"
-            interface_id = 3
-        }
+    # PC Settings
+    port_channel_settings {
+      enabled = false
     }
 
-    profiles {
-        object_type = "server.Profile"
-        moid = intersight_server_profile.standalone.moid
+    # Default DCE settings
+    dce_interface_settings {
+      fec_mode     = "Off"
+      interface_id = 0
     }
+    dce_interface_settings {
+      fec_mode     = "Off"
+      interface_id = 1
+    }
+    dce_interface_settings {
+      fec_mode     = "Off"
+      interface_id = 2
+    }
+    dce_interface_settings {
+      fec_mode     = "Off"
+      interface_id = 3
+    }
+  }
+
+  # Second Adapter
+  settings {
+    slot_id = "2"
+
+    # Ethernet Settings
+    eth_settings {
+      lldp_enabled = true
+    }
+
+    # FC Settings
+    fc_settings {
+      fip_enabled = false
+    }
+
+    # PC Settings
+    port_channel_settings {
+      enabled = false
+    }
+
+    # Default DCE settings
+    dce_interface_settings {
+      fec_mode     = "Off"
+      interface_id = 0
+    }
+    dce_interface_settings {
+      fec_mode     = "Off"
+      interface_id = 1
+    }
+    dce_interface_settings {
+      fec_mode     = "Off"
+      interface_id = 2
+    }
+    dce_interface_settings {
+      fec_mode     = "Off"
+      interface_id = 3
+    }
+  }
+
+  profiles {
+    object_type = "server.Profile"
+    moid        = intersight_server_profile.standalone.moid
+  }
 }

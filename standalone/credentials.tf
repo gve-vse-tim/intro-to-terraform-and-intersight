@@ -2,19 +2,19 @@
 ## Generate API key to obtain the API Key and PEM file
 
 variable "apikey" {
-    description = "API Key for Terraform Demo Account"
-    type = string
-    default = ""
+  description = "API Key for Terraform Demo Account"
+  type        = string
+  default     = ""
 }
 
 variable "secretkey" {
-    description = "Filename (PEM) or string contents thereof that provides secret key for Terraform Demo Account"
-    type = string
-    default = ""
+  description = "Filename (PEM) or string contents thereof that provides secret key for Terraform Demo Account"
+  type        = string
+  default     = ""
 }
 
 variable "endpoint" {
-    description = "Intersight API endpoint"
-    type = string
-    default = "https://intersight.com"
+  description = "Intersight API endpoint"
+  type        = string
+  default     = "https://intersight.com"
 }
