@@ -8,46 +8,6 @@ resource "intersight_vnic_lan_connectivity_policy" "Intersight_VMware" {
   name            = "Intersight_VMware"
   target_platform = "FIAttached"
   placement_mode  = "custom"
-
-  # eth_ifs {
-  #   object_type = "vnic.EthIf"
-  #   moid        = intersight_vnic_eth_if.hvm_mgmt_a.moid
-  # }
-
-  # eth_ifs {
-  #   object_type = "vnic.EthIf"
-  #   moid        = intersight_vnic_eth_if.hvm_mgmt_b.moid
-  # }
-
-  # eth_ifs {
-  #   object_type = "vnic.EthIf"
-  #   moid        = intersight_vnic_eth_if.hvm_migrate_a.moid
-  # }
-
-  # eth_ifs {
-  #   object_type = "vnic.EthIf"
-  #   moid        = intersight_vnic_eth_if.hvm_migrate_b.moid
-  # }
-
-  # eth_ifs {
-  #   object_type = "vnic.EthIf"
-  #   moid        = intersight_vnic_eth_if.hvm_storage_a.moid
-  # }
-
-  # eth_ifs {
-  #   object_type = "vnic.EthIf"
-  #   moid        = intersight_vnic_eth_if.hvm_storage_b.moid
-  # }
-
-  # eth_ifs {
-  #   object_type = "vnic.EthIf"
-  #   moid        = intersight_vnic_eth_if.hvm_vmnet_a.moid
-  # }
-
-  # eth_ifs {
-  #   object_type = "vnic.EthIf"
-  #   moid        = intersight_vnic_eth_if.hvm_vmnet_b.moid
-  # }
 }
 
 # Create the vNIC interfaces for VMware based, Intersight Managed Hosts

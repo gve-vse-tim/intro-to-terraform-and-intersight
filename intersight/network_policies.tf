@@ -1,33 +1,4 @@
 # Common policies between Standalone and Fabric deployments
-resource "intersight_macpool_pool" "hvm_fabric_a" {
-  organization {
-    moid = intersight_organization_organization.target.moid
-  }
-
-  description      = "Terraform deployed"
-  name             = "HVM-MacPool-Fabric-A"
-  assignment_order = "sequential"
-
-  mac_blocks {
-    from = "00:25:B5:A0:00:00"
-    to   = "00:25:B5:A0:00:FF"
-  }
-}
-
-resource "intersight_macpool_pool" "hvm_fabric_b" {
-  organization {
-    moid = intersight_organization_organization.target.moid
-  }
-
-  description      = "Terraform deployed"
-  name             = "HVM-MacPool-Fabric-B"
-  assignment_order = "sequential"
-
-  mac_blocks {
-    from = "00:25:B5:B0:00:00"
-    to   = "00:25:B5:B0:00:FF"
-  }
-}
 
 # /api/v1/vnic/EthAdapterPolicies?$filter=Name%20eq%20VMWare
 resource "intersight_vnic_eth_adapter_policy" "ethernet_vmware" {
@@ -184,5 +155,39 @@ resource "intersight_fabric_eth_network_group_policy" "hvm_vmnet_vlan" {
   vlan_settings {
     native_vlan   = 3900
     allowed_vlans = "604"
+  }
+}
+
+#
+# Fabric related Network/Mac Pools
+# 
+
+resource "intersight_macpool_pool" "hvm_fabric_a" {
+  organization {
+    moid = intersight_organization_organization.target.moid
+  }
+
+  description      = "Terraform deployed"
+  name             = "HVM-MacPool-Fabric-A"
+  assignment_order = "sequential"
+
+  mac_blocks {
+    from = "00:25:B5:A0:00:00"
+    to   = "00:25:B5:A0:00:FF"
+  }
+}
+
+resource "intersight_macpool_pool" "hvm_fabric_b" {
+  organization {
+    moid = intersight_organization_organization.target.moid
+  }
+
+  description      = "Terraform deployed"
+  name             = "HVM-MacPool-Fabric-B"
+  assignment_order = "sequential"
+
+  mac_blocks {
+    from = "00:25:B5:B0:00:00"
+    to   = "00:25:B5:B0:00:FF"
   }
 }
