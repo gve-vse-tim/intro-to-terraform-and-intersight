@@ -26,6 +26,12 @@ variable "ipv4_dns_server_2" {
     default = "208.67.220.220"
 }
 
+variable "site1_syslog_server" {
+  description = "Site 1 Syslog Server - Terraform deployed"
+  type        = string
+  default     = "10.60.180.185"
+}
+
 variable "target_organization" {
     description = "Deployment organization for policies - Terraform deployed"
     type = string

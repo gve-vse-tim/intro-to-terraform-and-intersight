@@ -16,6 +16,11 @@ resource "intersight_kvm_policy" "kvm_enabled_insecure" {
   remote_port               = 2069
   enable_video_encryption   = false
   enable_local_server_video = true
+
+  profiles {
+    object_type = "server.Profile"
+    moid        = intersight_server_profile.standalone.moid
+  }
 }
 
 # IPMI over LAN
@@ -28,6 +33,11 @@ resource "intersight_ipmioverlan_policy" "ipmi_disabled" {
   description = "IPMI over LAN disabled - Terraform deployed"
   name        = "IPMI-Disabled"
   enabled     = false
+
+  profiles {
+    object_type = "server.Profile"
+    moid        = intersight_server_profile.standalone.moid
+  }
 }
 
 # Serial over LAN
@@ -40,6 +50,11 @@ resource "intersight_sol_policy" "sol_disabled" {
   description = "Terraform deployed"
   name        = "SOL-Disabled"
   enabled     = false
+
+  profiles {
+    object_type = "server.Profile"
+    moid        = intersight_server_profile.standalone.moid
+  }
 }
 
 # SNMP
@@ -52,6 +67,11 @@ resource "intersight_snmp_policy" "snmp_disabled" {
   description = "Terraform deployed"
   name        = "SNMP-Disabled"
   enabled     = false
+
+  profiles {
+    object_type = "server.Profile"
+    moid        = intersight_server_profile.standalone.moid
+  }
 }
 
 # SYSLOG
@@ -82,6 +102,11 @@ resource "intersight_syslog_policy" "local_emergency_remote_notice" {
     hostname     = var.site1_syslog_server
     protocol     = "udp"
     port         = 514
+  }
+
+  profiles {
+    object_type = "server.Profile"
+    moid        = intersight_server_profile.standalone.moid
   }
 }
 
@@ -116,6 +141,11 @@ resource "intersight_boot_precision_policy" "local_boot_order" {
       Slot = "HBA"
     })
   }
+
+  profiles {
+    object_type = "server.Profile"
+    moid        = intersight_server_profile.standalone.moid
+  }
 }
 
 # vMedia - /api/v1/vmedia/Policies
@@ -142,6 +172,11 @@ resource "intersight_vmedia_policy" "fedora" {
     password                = ""
     username                = ""
     volume_name             = "FedoraInstall"
+  }
+
+  profiles {
+    object_type = "server.Profile"
+    moid        = intersight_server_profile.standalone.moid
   }
 }
 
@@ -204,6 +239,11 @@ resource "intersight_bios_policy" "vmware_6_7_U3" {
   partial_mirror_value3  = "platform-default"
   partial_mirror_value4  = "platform-default"
   patrol_scrub_duration  = "platform-default"
+
+  profiles {
+    object_type = "server.Profile"
+    moid        = intersight_server_profile.standalone.moid
+  }
 }
 
 #
@@ -244,6 +284,11 @@ resource "intersight_iam_end_point_user_policy" "local_user_policy" {
     notification_period      = 15
     grace_period             = 0
   }
+
+  profiles {
+    object_type = "server.Profile"
+    moid        = intersight_server_profile.standalone.moid
+  }
 }
 
 resource "intersight_iam_end_point_user_role" "local_dcnm_admin" {
@@ -267,70 +312,88 @@ resource "intersight_iam_end_point_user_role" "local_dcnm_admin" {
 }
 
 #
-# FI-Attached Specific Resources
+#  Common policies but attached differently (server vs domain)
+# 
+
+# Configure NTP policy
+resource "intersight_ntp_policy" "local_ntp" {
+  organization {
+    moid = intersight_organization_organization.target.moid
+  }
+
+  description = "Terraform deployed"
+  name        = "local_ntp"
+  enabled     = true
+  ntp_servers = [var.local_ntp_server]
+  timezone    = var.local_time_zone
+
+  profiles {
+    object_type = "server.Profile"
+    moid        = intersight_server_profile.standalone.moid
+  }
+}
+
+# Configure DNS ("Network Connectivity") policy
+resource "intersight_networkconfig_policy" "local_dns_server" {
+  organization {
+    moid = intersight_organization_organization.target.moid
+  }
+
+  description              = "Terraform deployed"
+  name                     = "local_dns_server"
+  preferred_ipv4dns_server = var.ipv4_dns_server_1
+  alternate_ipv4dns_server = var.ipv4_dns_server_2
+  enable_ipv6              = false
+  enable_ipv6dns_from_dhcp = false
+  enable_dynamic_dns       = false
+
+  # GitHub Issue #15: https://github.com/CiscoDevNet/terraform-provider-intersight/issues/15
+  # Must comment out on initial creation, then uncomment on
+  # subsequent 'terraform apply' to prevent updates.
+
+  # preferred_ipv6dns_server = "::"
+  # alternate_ipv6dns_server = "::"
+
+
+  profiles {
+    object_type = "server.Profile"
+    moid        = intersight_server_profile.standalone.moid
+  }
+}
+
+#
+# Standalone Specific Policies
 #
 
-# IP Pools
-resource "intersight_ippool_pool" "oob_mgmt_ip_pool" {
+# Enable SSH policy
+resource "intersight_ssh_policy" "EnableSSH" {
   organization {
     object_type = "organization.Organization"
     moid        = intersight_organization_organization.target.moid
   }
 
-  description      = "OOB Management IP Address Pool- Terraform deployed"
-  name             = "OOB-Mgmt-IP-Pool"
-  assignment_order = "sequential"
+  description = "Terraform deployed"
+  name        = "EnableSSH"
+  enabled     = true
+  port        = 22
+  timeout     = 1800
 
-  ip_v4_config {
-    object_type = "ippool.IpV4Config"
-    gateway     = "10.60.1.1"
-    netmask     = "255.255.255.0"
-    primary_dns = "10.60.180.185"
-  }
-
-  ip_v4_blocks {
-    object_type = "ippool.IpV4Block"
-    from        = "10.60.1.40"
-    to          = "10.60.1.49"
+  profiles {
+    object_type = "server.Profile"
+    moid        = intersight_server_profile.standalone.moid
   }
 }
 
-## UUID Pools
-resource "intersight_uuidpool_pool" "intersight_uuid_pool" {
+# Disable SSH policy
+resource "intersight_ssh_policy" "DisableSSH" {
   organization {
     object_type = "organization.Organization"
     moid        = intersight_organization_organization.target.moid
   }
 
-  description      = "UUID Pools for IMM Servers - Terraform deployed"
-  name             = "Intersight-UUID-Pool"
-  assignment_order = "sequential"
-  prefix           = "12345678-1234-1234"
-
-  uuid_suffix_blocks {
-    object_type = "uuidpool.UuidBlock"
-    from        = "1234-012345678900"
-    to          = "1234-01234567890F"
-  }
-}
-
-# UCS Access Policy
-resource "intersight_access_policy" "oob_mgmt_access" {
-  organization {
-    object_type = "organization.Organization"
-    moid        = intersight_organization_organization.target.moid
-  }
-
-  description = "OOB Management IP Address Policy - Terraform deployed"
-  name        = "OOB-Mgmt-Access"
-
-  configuration_type {
-    configure_inband      = false
-    configure_out_of_band = true
-  }
-
-  out_of_band_ip_pool {
-    object_type = "ippool.Pool"
-    moid        = intersight_ippool_pool.oob_mgmt_ip_pool.moid
-  }
+  description = "Terraform deployed"
+  name        = "DisableSSH"
+  enabled     = false
+  port        = 22
+  timeout     = 1800
 }
