@@ -347,14 +347,6 @@ resource "intersight_networkconfig_policy" "local_dns_server" {
   enable_ipv6dns_from_dhcp = false
   enable_dynamic_dns       = false
 
-  # GitHub Issue #15: https://github.com/CiscoDevNet/terraform-provider-intersight/issues/15
-  # Must comment out on initial creation, then uncomment on
-  # subsequent 'terraform apply' to prevent updates.
-
-  # preferred_ipv6dns_server = "::"
-  # alternate_ipv6dns_server = "::"
-
-
   profiles {
     object_type = "server.Profile"
     moid        = intersight_server_profile.standalone.moid
@@ -366,14 +358,14 @@ resource "intersight_networkconfig_policy" "local_dns_server" {
 #
 
 # Enable SSH policy
-resource "intersight_ssh_policy" "EnableSSH" {
+resource "intersight_ssh_policy" "enable_ssh" {
   organization {
     object_type = "organization.Organization"
     moid        = intersight_organization_organization.target.moid
   }
 
   description = "Terraform deployed"
-  name        = "EnableSSH"
+  name        = "Enable-SSH-Logins"
   enabled     = true
   port        = 22
   timeout     = 1800
@@ -382,18 +374,4 @@ resource "intersight_ssh_policy" "EnableSSH" {
     object_type = "server.Profile"
     moid        = intersight_server_profile.standalone.moid
   }
-}
-
-# Disable SSH policy
-resource "intersight_ssh_policy" "DisableSSH" {
-  organization {
-    object_type = "organization.Organization"
-    moid        = intersight_organization_organization.target.moid
-  }
-
-  description = "Terraform deployed"
-  name        = "DisableSSH"
-  enabled     = false
-  port        = 22
-  timeout     = 1800
 }
