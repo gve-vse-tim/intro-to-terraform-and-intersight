@@ -92,14 +92,6 @@ resource "intersight_syslog_policy" "local_emergency_remote_notice" {
     enabled      = true
     min_severity = "notice"
     hostname     = var.site1_syslog_server
-    protocol     = "tcp"
-    port         = 514
-  }
-
-  remote_clients {
-    enabled      = true
-    min_severity = "notice"
-    hostname     = var.site1_syslog_server
     protocol     = "udp"
     port         = 514
   }
@@ -156,7 +148,7 @@ resource "intersight_vmedia_policy" "fedora" {
 
   name          = "vmedia-fedora"
   description   = "Fedora Install ISO - Terraform Deployed"
-  enabled       = true
+  enabled       = false
   encryption    = false
   low_power_usb = false
 
@@ -252,6 +244,7 @@ resource "intersight_bios_policy" "vmware_6_7_U3" {
 
 data "intersight_iam_end_point_role" "admin_role" {
   name = "admin"
+  type = "IMC"
 }
 
 locals {

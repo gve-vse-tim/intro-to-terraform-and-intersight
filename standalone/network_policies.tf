@@ -120,29 +120,6 @@ resource "intersight_adapter_config_policy" "standalone_installed_adapters" {
     fc_settings {
       fip_enabled = false
     }
-
-    # PC Settings
-    port_channel_settings {
-      enabled = false
-    }
-
-    # Default DCE settings
-    dce_interface_settings {
-      fec_mode     = "Off"
-      interface_id = 0
-    }
-    dce_interface_settings {
-      fec_mode     = "Off"
-      interface_id = 1
-    }
-    dce_interface_settings {
-      fec_mode     = "Off"
-      interface_id = 2
-    }
-    dce_interface_settings {
-      fec_mode     = "Off"
-      interface_id = 3
-    }
   }
 
   # Second Adapter
@@ -157,29 +134,6 @@ resource "intersight_adapter_config_policy" "standalone_installed_adapters" {
     # FC Settings
     fc_settings {
       fip_enabled = false
-    }
-
-    # PC Settings
-    port_channel_settings {
-      enabled = false
-    }
-
-    # Default DCE settings
-    dce_interface_settings {
-      fec_mode     = "Off"
-      interface_id = 0
-    }
-    dce_interface_settings {
-      fec_mode     = "Off"
-      interface_id = 1
-    }
-    dce_interface_settings {
-      fec_mode     = "Off"
-      interface_id = 2
-    }
-    dce_interface_settings {
-      fec_mode     = "Off"
-      interface_id = 3
     }
   }
 

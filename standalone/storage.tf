@@ -9,7 +9,7 @@ resource "intersight_storage_storage_policy" "standalone_storage" {
   use_jbod_for_vd_creation = true
 
   unused_disks_state = "UnconfiguredGood"
-  global_hot_spares  = 0
+  global_hot_spares  = ""
 
   profiles {
     object_type = "server.Profile"
