@@ -96,6 +96,14 @@ resource "intersight_syslog_policy" "local_emergency_remote_notice" {
     port         = 514
   }
 
+  remote_clients {
+    enabled      = false
+    min_severity = "notice"
+    hostname     = "0.0.0.0"
+    protocol     = "udp"
+    port         = 514
+  }
+
   profiles {
     object_type = "server.Profile"
     moid        = intersight_server_profile.standalone.moid
